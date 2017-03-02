@@ -36,7 +36,7 @@ func AbsPath(dir string, p string) string {
 }
 
 // EnumeratePath enumerate the path
-func EnumeratePath(p string, f func(parent string, current string, stop *bool)) {
+func EnumeratePath(p string, f func(surplus string, current string, stop *bool)) {
 	if f == nil {
 		return
 	}

@@ -1,11 +1,10 @@
 package fs
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-
-	cerr "github.com/go-hayden-base/err"
 )
 
 // ListDirectory return subfile by callback function
@@ -15,12 +14,12 @@ func ListDirectory(dirname string, recursive bool, callback ListDirectCallbackFu
 	}
 	if !DirectoryExists(dirname) {
 		msg := "Directory path '" + dirname + "' is not exist!"
-		callback(nil, cerr.NewErrMessage(cerr.ErrCodeFileNoSuchFile, msg))
+		callback(nil, errors.New(msg))
 		return
 	}
 	dir, err := ioutil.ReadDir(dirname)
 	if err != nil {
-		callback(nil, cerr.NewErr(cerr.ErrCodeUnknown, err))
+		callback(nil, err)
 	}
 
 	for _, fileinfo := range dir {
