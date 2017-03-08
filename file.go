@@ -13,12 +13,21 @@ import (
 )
 
 // CopyFile copy file from src to des
-func CopyFile(src, des string) (w int64, err error) {
+func CopyFile(src, des string, mkdir bool) (w int64, err error) {
 	srcFile, err := os.Open(src)
 	if err != nil {
 		return 0, err
 	}
 	defer srcFile.Close()
+
+	if mkdir {
+		dir := path.Dir(des)
+		if !DirectoryExists(dir) {
+			if err := Mkdir(dir, os.ModePerm); err != nil {
+				return 0, err
+			}
+		}
+	}
 
 	desFile, err := os.Create(des)
 	if err != nil {
