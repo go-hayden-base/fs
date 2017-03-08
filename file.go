@@ -12,6 +12,23 @@ import (
 	"strings"
 )
 
+// CopyFile copy file from src to des
+func CopyFile(src, des string) (w int64, err error) {
+	srcFile, err := os.Open(src)
+	if err != nil {
+		return 0, err
+	}
+	defer srcFile.Close()
+
+	desFile, err := os.Create(des)
+	if err != nil {
+		return 0, err
+	}
+	defer desFile.Close()
+
+	return io.Copy(desFile, srcFile)
+}
+
 // FileExists return a bool value that file is exist or not
 func FileExists(path string) bool {
 	if len(path) == 0 {
